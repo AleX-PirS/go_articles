@@ -309,7 +309,8 @@ def FindWords(path):
     text = GetText(path)
     for w in WORDS:
         for idx, p in enumerate(text):
-            t = re.findall(rf" *[ a-zA-Z\-\–\,\:]*{w.lower()}[ a-zA-Z\-\–\,]*", p)
+            # t = re.findall(rf" *[ a-zA-Z\-\–\,\:]*{w.lower()}[ a-zA-Z\-\–\,]*", p)
+            t = re.findall(rf"[^\.]*{w.lower()}[^\.]*\.", p)
             if len(t)>0:
                 if w in result:
                     result[w].append(t)
@@ -330,4 +331,4 @@ def FindWords(path):
     print(wordss)
 
 if __name__ == "__main__":
-    FindWords("articles/100MS_SAR_ADC.pdf")
+    FindWords("articles/SAR_100MS_90nm.pdf")
