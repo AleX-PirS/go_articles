@@ -2,21 +2,21 @@ from pypdf import PdfReader
 import regex as re
 from WORDS import WORDS
 
-def GetText(path:str) -> list[str]:
+def GetText(path, last_idx):
     data = list()
     for idx, p in enumerate(PdfReader(path).pages):
-        if idx <9:
+        if idx <last_idx:
             data.append(p.extract_text().rstrip().replace("\n", " ").replace(" -", "-").replace(" —", " — "))
     return data
 
-def FindWords(path):
+def FindWords(path, last_idx):    
     result = dict()
     res_w = []
-    text = GetText(path)
+    text = GetText(path, last_idx)
     for w in WORDS:
         for page_num, p in enumerate(text):
             page_num += 1
-            t = re.findall(rf"[^\.]* {w} [^\.]*\.", p, re.IGNORECASE)
+            t = re.findall(rf"[^\.]* {w}[\,\:sed]* [^\.]*\.", p, re.IGNORECASE)
             if len(t)>0:
                 if w in result:
                     if page_num in result[w]:
@@ -28,7 +28,7 @@ def FindWords(path):
                     result[w][page_num] = t
                     res_w.append(w)
     for k, v in result.items():
-        print(f"\n\n\n––––––––––––––––––––––––{k}––––––––––––––––––––––––")
+        print(f"\n\n\n––––––––––––––––––––––––'{k}'––––––––––––––––––––––––")
         for num, snt in v.items():
             print(f"\tpage:{num}")
             for s in snt:
@@ -45,4 +45,4 @@ def FindWords(path):
     print(wordss)
 
 if __name__ == "__main__":
-    FindWords("articles/ADC.pdf")
+    FindWords("articles/14_words.pdf", 4)
