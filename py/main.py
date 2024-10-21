@@ -16,7 +16,7 @@ def FindWords(path, last_idx):
     for w in WORDS:
         for page_num, p in enumerate(text):
             page_num += 1
-            t = re.findall(rf"[^\.]* {w}[\,\:sed]* [^\.]*\.", p, re.IGNORECASE)
+            t = re.findall(rf"[^\.]* {w}[\,\:sied]* [^\.]*\.", p, re.IGNORECASE)
             if len(t)>0:
                 if w in result:
                     if page_num in result[w]:
@@ -45,4 +45,4 @@ def FindWords(path, last_idx):
     print(wordss)
 
 if __name__ == "__main__":
-    FindWords("articles/14_words.pdf", 4)
+    FindWords("articles/10.pdf", 10)
